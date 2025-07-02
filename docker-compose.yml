@@ -1,0 +1,18 @@
+# movierec_poc/docker-compose.yml
+
+version: '3.8'
+
+services:
+  # PostgreSQL 데이터베이스 서비스
+  db:
+    image: postgres:17
+    container_name: OTT_rec_db
+    environment:
+      POSTGRES_USER: proj2        # 사용할 유저 이름
+      POSTGRES_PASSWORD: 1234  # 사용할 비밀번호
+      POSTGRES_DB: OTT_rec     # 사용할 데이터베이스 이름
+    ports:
+      - "5433:5432" # 로컬 5432 포트와 컨테이너 5432 포트 연결
+    volumes:
+      - ./ott_rec_pgdata:/var/lib/postgresql/data # 데이터 영속성을 위한 볼륨 매핑
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # 초기 스키마 생성을 위한 SQL 파일 매핑
